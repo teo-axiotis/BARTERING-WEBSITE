@@ -11,7 +11,7 @@ $u_id = $_SESSION['user_id'];
 //query που επιστρέφει τα δημοφιλέστερα προιόντα αγγελιών βάσει εκδηλώσεων ενδιαφέροντος
 $pop_ads = "SELECT product_name,products.product_id,picture,product_descr,name from products,categories,ads where products.product_id in
 (select ads.product_id from ads join
-(select interests.ad_id,COUNT(interests.ad_id) as cnt from interests,ads where interests.ad_id=ads.ad_id and active=1 and ads.user_id<>$u_id GROUP BY ad_id ORDER BY cnt desc limit 5) as t
+(select interests.ad_id,COUNT(interests.ad_id) as cnt from interests,ads where interests.ad_id=ads.ad_id and active=1 GROUP BY ad_id ORDER BY cnt desc limit 5) as t
 on t.ad_id = ads.ad_id ) and categories.category_id = products.category_id and products.product_id = ads.product_id  ";
 $res1 = $connection->query($pop_ads);
 $k=0;
@@ -25,7 +25,7 @@ $k=0;
         <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
         </div>
         <!--Όσο υπάρχουν επιστρεφόμενες αγγελίες δημιούργησε δυναμικά 5άδες προιόντων-->
-        <?php while($row1 = $res1->fetch_assoc()) : $pop_ids[$k]=$row1['product_id']; $k++?>
+        <?php while($row1 = $res1->fetch_assoc()) : $pop_ids[$k]=$row1['product_id']; $k++;?>
 
           <div class="col-sm-10 col-md-10 col-lg-2">
             <div class="media">
